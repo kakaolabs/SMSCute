@@ -3,6 +3,14 @@
 
     <string name="app_name">SMS Cute</string>
     <string name="sms">SMS</string>
+    <string name="all">All</string>
+    <string name="favorite">Favorite</string>
+    <string name="used">Used</string>
+    <string name="about">ABOUT</string>
+    <string name="author">Contact with author</string>
+    <string name="other_apps">Other applications</string>
+    <string name="vote_app">Vote SMS Cute</string>
+    <string name="news">NEWS</string>
     <string name="search_hint">Enter name, content of catelogue or message</string>
 
 </resources>

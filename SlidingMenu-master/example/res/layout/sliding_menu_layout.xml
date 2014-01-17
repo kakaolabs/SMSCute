@@ -6,23 +6,109 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/sliding_menu_about_app"
+        style="@style/left_menu_title"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/sliding_menu_about_height"
-        android:background="@color/black"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_level_3" />
+        android:layout_height="@dimen/sliding_menu_title_height"
+        android:text="@string/sms" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_divider" />
 
     <TextView
+        android:id="@+id/left_menu_all"
+        style="@style/left_menu_row"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/sliding_menu_about_height"
-        android:background="@color/dark_gray_title"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/list_padding"
-        android:text="@string/sms"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_level_3" />
+        android:layout_height="@dimen/sliding_menu_row_height"
+        android:text="@string/all" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_divider" />
+
+    <TextView
+        android:id="@+id/left_menu_favorite"
+        style="@style/left_menu_row"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/sliding_menu_row_height"
+        android:text="@string/favorite" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_divider" />
+
+    <TextView
+        android:id="@+id/left_menu_used"
+        style="@style/left_menu_row"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/sliding_menu_row_height"
+        android:text="@string/used" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_divider" />
+
+    <TextView
+        style="@style/left_menu_title"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/sliding_menu_title_height"
+        android:text="@string/about" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_divider" />
+
+    <TextView
+        android:id="@+id/left_menu_other_apps"
+        style="@style/left_menu_row"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/sliding_menu_row_height"
+        android:text="@string/other_apps" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_divider" />
+
+    <TextView
+        android:id="@+id/left_menu_author"
+        style="@style/left_menu_row"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/sliding_menu_row_height"
+        android:text="@string/author" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_divider" />
+
+    <TextView
+        android:id="@+id/left_menu_vote_app"
+        style="@style/left_menu_row"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/sliding_menu_row_height"
+        android:text="@string/vote_app" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_divider" />
+
+    <TextView
+        android:id="@+id/left_menu_news"
+        style="@style/left_menu_row"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/sliding_menu_row_height"
+        android:text="@string/news" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_divider" />
 
 </LinearLayout>
