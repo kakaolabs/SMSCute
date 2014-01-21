@@ -16,36 +16,54 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_divider" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/left_menu_all"
         style="@style/left_menu_row"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/sliding_menu_row_height"
-        android:text="@string/all" />
+        android:layout_height="@dimen/sliding_menu_row_height" >
+
+        <TextView
+            style="@style/left_menu_text"
+            android:layout_width="@dimen/left_menu_text_width"
+            android:layout_height="@dimen/sliding_menu_row_height"
+            android:text="@string/all" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_divider" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/left_menu_favorite"
         style="@style/left_menu_row"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/sliding_menu_row_height"
-        android:text="@string/favorite" />
+        android:layout_height="@dimen/sliding_menu_row_height" >
+
+        <TextView
+            style="@style/left_menu_text"
+            android:layout_width="@dimen/left_menu_text_width"
+            android:layout_height="@dimen/sliding_menu_row_height"
+            android:text="@string/favorite" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_divider" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/left_menu_used"
         style="@style/left_menu_row"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/sliding_menu_row_height"
-        android:text="@string/used" />
+        android:layout_height="@dimen/sliding_menu_row_height" >
+
+        <TextView
+            style="@style/left_menu_text"
+            android:layout_width="@dimen/left_menu_text_width"
+            android:layout_height="@dimen/sliding_menu_row_height"
+            android:text="@string/used" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="fill_parent"
@@ -63,48 +81,79 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_divider" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/left_menu_other_apps"
         style="@style/left_menu_row"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/sliding_menu_row_height"
-        android:text="@string/other_apps" />
+        android:layout_height="@dimen/sliding_menu_row_height" >
+
+        <TextView
+            style="@style/left_menu_text"
+            android:layout_width="@dimen/left_menu_text_width"
+            android:layout_height="@dimen/sliding_menu_row_height"
+            android:text="@string/other_apps" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_divider" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/left_menu_author"
         style="@style/left_menu_row"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/sliding_menu_row_height"
-        android:text="@string/author" />
+        android:layout_height="@dimen/sliding_menu_row_height" >
+
+        <TextView
+            style="@style/left_menu_text"
+            android:layout_width="@dimen/left_menu_text_width"
+            android:layout_height="@dimen/sliding_menu_row_height"
+            android:text="@string/author" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_divider" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/left_menu_vote_app"
         style="@style/left_menu_row"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/sliding_menu_row_height"
-        android:text="@string/vote_app" />
+        android:layout_height="@dimen/sliding_menu_row_height" >
+
+        <TextView
+            style="@style/left_menu_text"
+            android:layout_width="@dimen/left_menu_text_width"
+            android:layout_height="@dimen/sliding_menu_row_height"
+            android:text="@string/vote_app" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_divider" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/left_menu_news"
         style="@style/left_menu_row"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/sliding_menu_row_height"
-        android:text="@string/news" />
+        android:layout_height="@dimen/sliding_menu_row_height" >
+
+        <TextView
+            style="@style/left_menu_text"
+            android:layout_width="@dimen/left_menu_text_width"
+            android:layout_height="@dimen/sliding_menu_row_height"
+            android:text="@string/news" />
+
+        <TextView
+            android:id="@+id/left_menu_news_number"
+            style="@style/left_menu_number"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:text="1" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="fill_parent"

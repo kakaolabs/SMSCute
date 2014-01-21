@@ -8,5 +8,6 @@
     <color name="black">#000</color>
     <color name="gray">#777777</color>
     <color name="dark_gray">#171717</color>
+    <color name="listview_background">#f4f4f4</color>
 
 </resources>

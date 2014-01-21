@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.kakaolabs.smscute.R;
-import com.kakaolabs.smscute.adapter.ExpandableListAdapter;
+import com.kakaolabs.smscute.adapter.MyExpandableListAdapter;
 
 public class CatalogueListFragment extends Fragment {
-	ExpandableListAdapter listAdapter;
+	MyExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
@@ -24,10 +24,11 @@ public class CatalogueListFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.catalogue_list_layout, null);
 		// get the listview
-		expListView = (ExpandableListView) view.findViewById(R.id.lvExp);
+		expListView = (ExpandableListView) view
+				.findViewById(R.id.catalogue_list_expandable_listview);
 		// preparing list data
 		prepareListData();
-		listAdapter = new ExpandableListAdapter(this.getActivity(),
+		listAdapter = new MyExpandableListAdapter(this.getActivity(),
 				listDataHeader, listDataChild);
 		// setting list adapter
 		expListView.setAdapter(listAdapter);
