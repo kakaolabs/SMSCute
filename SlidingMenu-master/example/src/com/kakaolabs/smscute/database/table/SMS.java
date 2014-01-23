@@ -1,4 +1,4 @@
-package com.dungnh8.smscute.database.table;
+package com.kakaolabs.smscute.database.table;
 
 import java.io.Serializable;
 
