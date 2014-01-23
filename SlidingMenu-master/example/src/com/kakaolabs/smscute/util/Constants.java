@@ -11,7 +11,7 @@ public class Constants {
 	public static final String API_SECRET = "a36080d6-549c-4515-9334-33b19b3dd2de";
 	// link of server
 	public static final String URL_CATEGORIES_ENDPOINT = "/sms/v1/categories/";
-	public static final String DOMAIN = "kakaolabs.herokuapp.com";
+	public static final String DOMAIN = "http://kakaolabs.herokuapp.com";
 	// volley constant
 	public static final int VOLLEY_TIMEOUT = 30000;
 	public static final int VOLLEY_MAX_NUM_RETRIES = 5;

@@ -6,27 +6,17 @@ public class CurlLogUtil {
 	private static final String CURL_GET = "curl -XGET ";
 	private static final String CURL_POST = "curl -XPOST ";
 
-	public static final void getInfo(final String TAG, String msg) {
+	private static final String getFormatCurlLog(String msg) {
+		return "\"" + msg + "\"";
+	}
+
+	public static final void getMessage(final String TAG, String msg) {
+		msg = getFormatCurlLog(msg);
 		Log.i(TAG, CURL_GET + msg);
 	}
 
-	public static final void getDebug(final String TAG, String msg) {
-		Log.d(TAG, CURL_GET + msg);
-	}
-
-	public static final void getError(final String TAG, String msg) {
-		Log.e(TAG, CURL_GET + msg);
-	}
-
-	public static final void postInfo(final String TAG, String msg) {
+	public static final void postMessage(final String TAG, String msg) {
+		msg = getFormatCurlLog(msg);
 		Log.i(TAG, CURL_POST + msg);
-	}
-
-	public static final void postDebug(final String TAG, String msg) {
-		Log.d(TAG, CURL_POST + msg);
-	}
-
-	public static final void postError(final String TAG, String msg) {
-		Log.e(TAG, CURL_POST + msg);
 	}
 }

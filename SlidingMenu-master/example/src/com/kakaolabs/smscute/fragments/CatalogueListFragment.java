@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONArray;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,16 +16,17 @@ import android.widget.ExpandableListView;
 
 import com.kakaolabs.smscute.R;
 import com.kakaolabs.smscute.adapter.MyExpandableListAdapter;
+import com.kakaolabs.smscute.database.table.Catalogue;
+import com.kakaolabs.smscute.parser.CatalogueParser;
 import com.kakaolabs.smscute.util.Constants;
 import com.kakaolabs.smscute.util.CurlLogUtil;
 import com.kakaolabs.smscute.util.SecureUtil;
 import com.kakaolabs.smscute.util.TimeUtil;
 import com.kakaolabs.smscute.util.VolleyHelper;
 import com.smskute.android.volley.DefaultRetryPolicy;
-import com.smskute.android.volley.Request;
 import com.smskute.android.volley.Response;
 import com.smskute.android.volley.VolleyError;
-import com.smskute.android.volley.toolbox.StringRequest;
+import com.smskute.android.volley.toolbox.JsonArrayRequest;
 
 public class CatalogueListFragment extends Fragment {
 	private MyExpandableListAdapter listAdapter;
@@ -143,25 +146,28 @@ public class CatalogueListFragment extends Fragment {
 	private void getCategories() {
 		try {
 			final String link = getRequestLink();
-			CurlLogUtil.getInfo(TAG, link);
+			CurlLogUtil.getMessage(TAG, link);
 			// get request
-			StringRequest getRequest = new StringRequest(Request.Method.GET,
-					link, new Response.Listener<String>() {
+			JsonArrayRequest getRequest = new JsonArrayRequest(link,
+					new Response.Listener<JSONArray>() {
 						@Override
-						public void onResponse(String response) {
+						public void onResponse(JSONArray response) {
 							try {
-								System.out.println(response);
+								ArrayList<Catalogue> catalogues = CatalogueParser
+										.getAllCatalogue(response);
+								for (int i = 0; i < catalogues.size(); i++) {
+									System.out.println(catalogues.get(i));
+								}
 							} catch (Exception e) {
-								Log.e(TAG, "crawlerOverview", e);
+								Log.e(TAG, "getCategories", e);
 							}
 						}
 					}, new Response.ErrorListener() {
 						@Override
 						public void onErrorResponse(VolleyError error) {
-							Log.e(TAG, "crawlerOverview", error);
+							Log.e(TAG, "getCategories", error);
 						}
-					}) {
-			};
+					});
 			getRequest.setRetryPolicy(new DefaultRetryPolicy(
 					Constants.VOLLEY_TIMEOUT, Constants.VOLLEY_MAX_NUM_RETRIES,
 					Constants.VOLLEY_BACKOFF_MULTIPLER));

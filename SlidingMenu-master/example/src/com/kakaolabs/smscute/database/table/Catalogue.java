@@ -35,6 +35,6 @@ public class Catalogue implements Serializable {
 	}
 
 	public String toString() {
-		return name;
+		return id + " : " + name + " : " + searched_name;
 	}
 }
