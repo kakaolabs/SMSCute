@@ -1,64 +1,55 @@
 package com.kakaolabs.smscute.util;
 
-import java.util.Arrays;
-
 public class StringUtil {
-	private static char[] SPECIAL_CHARACTERS = { 'À', 'Á', 'Â', 'Ã', 'È', 'É',
-			'Ê', 'Ì', 'Í', 'Ò', 'Ó', 'Ô', 'Õ', 'Ù', 'Ú', 'Ý', 'à', 'á', 'â',
-			'ã', 'è', 'é', 'ê', 'ì', 'í', 'ò', 'ó', 'ô', 'õ', 'ù', 'ú', 'ý',
-			'Ă', 'ă', 'Đ', 'đ', 'Ĩ', 'ĩ', 'Ũ', 'ũ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ạ',
-			'ạ', 'Ả', 'ả', 'Ấ', 'ấ', 'Ầ', 'ầ', 'Ẩ', 'ẩ', 'Ẫ', 'ẫ', 'Ậ', 'ậ',
-			'Ắ', 'ắ', 'Ằ', 'ằ', 'Ẳ', 'ẳ', 'Ẵ', 'ẵ', 'Ặ', 'ặ', 'Ẹ', 'ẹ', 'Ẻ',
-			'ẻ', 'Ẽ', 'ẽ', 'Ế', 'ế', 'Ề', 'ề', 'Ể', 'ể', 'Ễ', 'ễ', 'Ệ', 'ệ',
-			'Ỉ', 'ỉ', 'Ị', 'ị', 'Ọ', 'ọ', 'Ỏ', 'ỏ', 'Ố', 'ố', 'Ồ', 'ồ', 'Ổ',
-			'ổ', 'Ỗ', 'ỗ', 'Ộ', 'ộ', 'Ớ', 'ớ', 'Ờ', 'ờ', 'Ở', 'ở', 'Ỡ', 'ỡ',
-			'Ợ', 'ợ', 'Ụ', 'ụ', 'Ủ', 'ủ', 'Ứ', 'ứ', 'Ừ', 'ừ', 'Ử', 'ử', 'Ữ',
-			'ữ', 'Ự', 'ự', };
+	private static final Character[] coDauA = { 'à', 'á', 'ạ', 'ả', 'ã', 'â',
+			'ầ', 'ấ', 'ậ', 'ẩ', 'ẫ', 'ă', 'ằ', 'ắ', 'ặ', 'ẳ', 'ẵ', 'À', 'Á',
+			'Ạ', 'Ả', 'Ã', 'Â', 'Ầ', 'Ấ', 'Ậ', 'Ẩ', 'Ẫ', 'Ă', 'Ằ', 'Ắ', 'Ặ',
+			'Ẳ', 'Ẵ' };
+	private static final Character[] coDauE = { 'è', 'é', 'ẹ', 'ẻ', 'ẽ', 'ê',
+			'ề', 'ế', 'ệ', 'ể', 'ễ', 'È', 'É', 'Ẹ', 'Ẻ', 'Ẽ', 'Ê', 'Ề', 'Ế',
+			'Ệ', 'Ể', 'Ễ' };
+	private static final Character[] coDauI = { 'ì', 'í', 'ị', 'ỉ', 'ĩ', 'Ì',
+			'Í', 'Ị', 'Ỉ', 'Ĩ' };
+	private static final Character[] coDauO = { 'ò', 'ó', 'ọ', 'ỏ', 'õ', 'ô',
+			'ồ', 'ố', 'ộ', 'ổ', 'ỗ', 'ơ', 'ờ', 'ớ', 'ợ', 'ở', 'ỡ', 'Ò', 'Ó',
+			'Ọ', 'Ỏ', 'Õ', 'Ô', 'Ồ', 'Ố', 'Ộ', 'Ổ', 'Ỗ', 'Ơ', 'Ờ', 'Ớ', 'Ợ',
+			'Ở', 'Ỡ' };
+	private static final Character[] coDauU = { 'ù', 'ú', 'ụ', 'ủ', 'ũ', 'ư',
+			'ừ', 'ứ', 'ự', 'ử', 'ữ', 'Ù', 'Ú', 'Ụ', 'Ủ', 'Ũ', 'Ư', 'Ừ', 'Ứ',
+			'Ự', 'Ử', 'Ữ' };
+	private static final Character[] coDauY = { 'ỳ', 'ý', 'ỵ', 'ỷ', 'ỹ', 'Ỳ',
+			'Ý', 'Ỵ', 'Ỷ', 'Ỹ' };
+	private static final Character[] coDauD = { 'đ', 'Đ' };
 
-	private static char[] REPLACEMENTS = { 'a', 'a', 'a', 'a', 'e', 'e', 'e',
-			'i', 'i', 'o', 'o', 'o', 'o', 'u', 'u', 'y', 'a', 'a', 'a', 'a',
-			'e', 'e', 'e', 'i', 'i', 'o', 'o', 'o', 'o', 'u', 'u', 'y', 'a',
-			'a', 'd', 'd', 'i', 'i', 'u', 'u', 'o', 'o', 'u', 'u', 'a', 'a',
-			'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a',
-			'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e',
-			'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'i',
-			'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o',
-			'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o',
-			'o', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u',
-			'u', 'u', };
-
-	public static String toUrlFriendly(String s) {
-		int maxLength = Math.min(s.length(), 236);
-		char[] buffer = new char[maxLength];
-		int n = 0;
-		for (int i = 0; i < maxLength; i++) {
-			char ch = s.charAt(i);
-			buffer[n] = removeAccent(ch);
-			// skip not printable characters
-			if (buffer[n] > 31) {
-				n++;
-			}
+	/**
+	 * convert utf8 string to ascii string
+	 * 
+	 * @author Daniel
+	 * @param text
+	 * @return
+	 */
+	public static String utf8ToAscii(String text) {
+		for (int i = 0; i < coDauA.length; i++) {
+			text = text.replace(coDauA[i], 'a');
 		}
-		// skip trailing slashes
-		while (n > 0 && buffer[n - 1] == '/') {
-			n--;
+		for (int i = 0; i < coDauD.length; i++) {
+			text = text.replace(coDauD[i], 'd');
 		}
-		return String.valueOf(buffer, 0, n);
-	}
-
-	public static char removeAccent(char ch) {
-		int index = Arrays.binarySearch(SPECIAL_CHARACTERS, ch);
-		if (index >= 0) {
-			ch = REPLACEMENTS[index];
+		for (int i = 0; i < coDauE.length; i++) {
+			text = text.replace(coDauE[i], 'e');
 		}
-		return ch;
-	}
-
-	public static String removeAccent(String s) {
-		StringBuilder sb = new StringBuilder(s);
-		for (int i = 0; i < sb.length(); i++) {
-			sb.setCharAt(i, removeAccent(sb.charAt(i)));
+		for (int i = 0; i < coDauI.length; i++) {
+			text = text.replace(coDauI[i], 'i');
 		}
-		return sb.toString();
+		for (int i = 0; i < coDauO.length; i++) {
+			text = text.replace(coDauO[i], 'o');
+		}
+		for (int i = 0; i < coDauU.length; i++) {
+			text = text.replace(coDauU[i], 'u');
+		}
+		for (int i = 0; i < coDauY.length; i++) {
+			text = text.replace(coDauY[i], 'y');
+		}
+		return text;
 	}
 }

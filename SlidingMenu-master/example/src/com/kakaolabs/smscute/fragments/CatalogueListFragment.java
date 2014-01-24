@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.json.JSONArray;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,9 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-
 import com.kakaolabs.smscute.R;
 import com.kakaolabs.smscute.adapter.MyExpandableListAdapter;
+import com.kakaolabs.smscute.database.MySQLiteHelper;
 import com.kakaolabs.smscute.database.table.Catalogue;
 import com.kakaolabs.smscute.parser.CatalogueParser;
 import com.kakaolabs.smscute.util.Constants;
@@ -31,8 +32,9 @@ import com.smskute.android.volley.toolbox.JsonArrayRequest;
 public class CatalogueListFragment extends Fragment {
 	private MyExpandableListAdapter listAdapter;
 	private ExpandableListView expListView;
-	private List<String> listDataHeader;
+	private List<Catalogue> listDataHeader;
 	private HashMap<String, List<String>> listDataChild;
+	private ArrayList<Catalogue> catalogues;
 	private static final String TAG = "CatalogueListFragment";
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,43 +56,9 @@ public class CatalogueListFragment extends Fragment {
 	 * Preparing the list data
 	 */
 	private void prepareListData() {
-		listDataHeader = new ArrayList<String>();
+		listDataHeader = new ArrayList<Catalogue>();
 		listDataChild = new HashMap<String, List<String>>();
 		getCategories();
-		// // Adding child data
-		// listDataHeader.add("Top 250");
-		// listDataHeader.add("Now Showing");
-		// listDataHeader.add("Coming Soon..");
-		//
-		// // Adding child data
-		// List<String> top250 = new ArrayList<String>();
-		// top250.add("The Shawshank Redemption");
-		// top250.add("The Godfather");
-		// top250.add("The Godfather: Part II");
-		// top250.add("Pulp Fiction");
-		// top250.add("The Good, the Bad and the Ugly");
-		// top250.add("The Dark Knight");
-		// top250.add("12 Angry Men");
-		//
-		// List<String> nowShowing = new ArrayList<String>();
-		// nowShowing.add("The Conjuring");
-		// nowShowing.add("Despicable Me 2");
-		// nowShowing.add("Turbo");
-		// nowShowing.add("Grown Ups 2");
-		// nowShowing.add("Red 2");
-		// nowShowing.add("The Wolverine");
-		//
-		// List<String> comingSoon = new ArrayList<String>();
-		// comingSoon.add("2 Guns");
-		// comingSoon.add("The Smurfs 2");
-		// comingSoon.add("The Spectacular Now");
-		// comingSoon.add("The Canyons");
-		// comingSoon.add("Europa Report");
-		//
-		// listDataChild.put(listDataHeader.get(0), top250); // Header, Child
-		// data
-		// listDataChild.put(listDataHeader.get(1), nowShowing);
-		// listDataChild.put(listDataHeader.get(2), comingSoon);
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -153,11 +121,17 @@ public class CatalogueListFragment extends Fragment {
 						@Override
 						public void onResponse(JSONArray response) {
 							try {
-								ArrayList<Catalogue> catalogues = CatalogueParser
+								catalogues = CatalogueParser
 										.getAllCatalogue(response);
-								for (int i = 0; i < catalogues.size(); i++) {
-									System.out.println(catalogues.get(i));
+								// if connect to server ok
+								if (catalogues != null && catalogues.size() > 0) {
+									// save catalogues to database
+									new SaveCatalogueAsyncTask().execute();
+								} else { // get catalogues list from database
+									catalogues = MySQLiteHelper.getInstance(
+											getActivity()).getAllCatalogues();
 								}
+								drawCataloguesList();
 							} catch (Exception e) {
 								Log.e(TAG, "getCategories", e);
 							}
@@ -174,6 +148,43 @@ public class CatalogueListFragment extends Fragment {
 			VolleyHelper.getVolleyQueue(getActivity()).add(getRequest);
 		} catch (Exception e) {
 			Log.e(TAG, "crawlerOverview", e);
+		}
+	}
+
+	/**
+	 * Save catalogue to database
+	 * 
+	 * @author Daniel
+	 * 
+	 */
+	private class SaveCatalogueAsyncTask extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... params) {
+			for (Catalogue catalogue : catalogues) {
+				MySQLiteHelper.getInstance(
+						CatalogueListFragment.this.getActivity())
+						.createCatalogue(catalogue);
+			}
+			return null;
+		}
+	}
+
+	/**
+	 * draw catalogues list
+	 * 
+	 * @author Daniel
+	 * 
+	 */
+	private void drawCataloguesList() {
+		try {
+			// get parent catalogue
+			for (int i = 0; i < catalogues.size(); i++) {
+				if (catalogues.get(i).getParentCatalogueID() == 0) {
+					listDataHeader.add(catalogues.get(i));
+				}
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "drawCataloguesList", e);
 		}
 	}
 }

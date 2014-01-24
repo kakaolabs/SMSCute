@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.kakaolabs.smscute.R;
+import com.kakaolabs.smscute.database.table.Catalogue;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -16,12 +17,12 @@ import android.widget.TextView;
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
 	private Context _context;
-	private List<String> _listDataHeader; // header titles
+	private List<Catalogue> _listDataHeader; // header titles
 	// child data in format of header title, child title
 	private HashMap<String, List<String>> _listDataChild;
 
 	public MyExpandableListAdapter(Context context,
-			List<String> listDataHeader,
+			List<Catalogue> listDataHeader,
 			HashMap<String, List<String>> listChildData) {
 		this._context = context;
 		this._listDataHeader = listDataHeader;
@@ -82,13 +83,13 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
-		String headerTitle = (String) getGroup(groupPosition);
+		Catalogue catalogue = (Catalogue) getGroup(groupPosition);
+		String headerTitle = catalogue.getName();
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this._context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = infalInflater.inflate(R.layout.list_group, null);
 		}
-
 		TextView group_name = (TextView) convertView
 				.findViewById(R.id.list_group_name);
 		group_name.setTypeface(null, Typeface.BOLD);
