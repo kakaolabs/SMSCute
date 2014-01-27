@@ -44,7 +44,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 	public View getChildView(int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 
-		final String childText = (String) getChild(groupPosition, childPosition);
+		final Catalogue catalogue = (Catalogue) getChild(groupPosition,
+				childPosition);
+		final String childText = catalogue.getName();
 
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this._context
