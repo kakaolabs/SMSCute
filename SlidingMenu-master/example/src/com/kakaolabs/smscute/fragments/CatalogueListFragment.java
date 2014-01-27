@@ -33,8 +33,8 @@ public class CatalogueListFragment extends Fragment {
 	private MyExpandableListAdapter listAdapter;
 	private ExpandableListView expListView;
 	private List<Catalogue> listDataHeader;
-	private HashMap<String, List<String>> listDataChild;
-	private ArrayList<Catalogue> catalogues;
+	private HashMap<Catalogue, List<Catalogue>> listDataChild;
+	private ArrayList<Catalogue> catalogues, cataloguesDB;
 	private static final String TAG = "CatalogueListFragment";
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,12 +57,29 @@ public class CatalogueListFragment extends Fragment {
 	 */
 	private void prepareListData() {
 		listDataHeader = new ArrayList<Catalogue>();
-		listDataChild = new HashMap<String, List<String>>();
-		getCategories();
+		listDataChild = new HashMap<Catalogue, List<Catalogue>>();
+		getCategoriesFromDatabase();
+		getCategoriesInServer();
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+	}
+
+	/**
+	 * get catagories from database
+	 * 
+	 * @author dungnh8
+	 */
+	private void getCategoriesFromDatabase() {
+		try {
+			// get catalogues from DB
+			cataloguesDB = MySQLiteHelper.getInstance(getActivity())
+					.getAllCatalogues();
+			drawCataloguesList();
+		} catch (Exception e) {
+			Log.e(TAG, "getCategoriesInDatabase", e);
+		}
 	}
 
 	/**
@@ -111,7 +128,7 @@ public class CatalogueListFragment extends Fragment {
 	 * 
 	 * @author dungnh8
 	 */
-	private void getCategories() {
+	private void getCategoriesInServer() {
 		try {
 			final String link = getRequestLink();
 			CurlLogUtil.getMessage(TAG, link);
@@ -127,11 +144,7 @@ public class CatalogueListFragment extends Fragment {
 								if (catalogues != null && catalogues.size() > 0) {
 									// save catalogues to database
 									new SaveCatalogueAsyncTask().execute();
-								} else { // get catalogues list from database
-									catalogues = MySQLiteHelper.getInstance(
-											getActivity()).getAllCatalogues();
 								}
-								drawCataloguesList();
 							} catch (Exception e) {
 								Log.e(TAG, "getCategories", e);
 							}
@@ -161,9 +174,20 @@ public class CatalogueListFragment extends Fragment {
 		@Override
 		protected Void doInBackground(Void... params) {
 			for (Catalogue catalogue : catalogues) {
-				MySQLiteHelper.getInstance(
-						CatalogueListFragment.this.getActivity())
-						.createCatalogue(catalogue);
+				boolean isNew = true;
+				// check that catalogue is exist in database
+				for (Catalogue catalogueOfDB : cataloguesDB) {
+					if (catalogue.getCatelogueID() == catalogueOfDB
+							.getCatelogueID()) {
+						isNew = false;
+						break;
+					}
+				}
+				if (isNew) { // if catalogue is not in database
+					MySQLiteHelper.getInstance(
+							CatalogueListFragment.this.getActivity())
+							.createCatalogue(catalogue);
+				}
 			}
 			return null;
 		}
@@ -178,10 +202,22 @@ public class CatalogueListFragment extends Fragment {
 	private void drawCataloguesList() {
 		try {
 			// get parent catalogue
-			for (int i = 0; i < catalogues.size(); i++) {
-				if (catalogues.get(i).getParentCatalogueID() == 0) {
-					listDataHeader.add(catalogues.get(i));
+			for (int i = 0; i < cataloguesDB.size(); i++) {
+				if (cataloguesDB.get(i).getParentCatalogueID() == 0) {
+					listDataHeader.add(cataloguesDB.get(i));
 				}
+			}
+			// get child catalogue
+			for (int i = 0; i < listDataHeader.size(); i++) {
+				Catalogue parent = listDataHeader.get(i);
+				ArrayList<Catalogue> childs = new ArrayList<Catalogue>();
+				for (int j = 0; j < cataloguesDB.size(); j++) {
+					Catalogue child = cataloguesDB.get(j);
+					if (child.getParentCatalogueID() == parent.getCatelogueID()) {
+						childs.add(child);
+					}
+				}
+				listDataChild.put(parent, childs);
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "drawCataloguesList", e);
