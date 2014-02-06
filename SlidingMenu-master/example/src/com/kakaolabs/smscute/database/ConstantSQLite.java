@@ -12,7 +12,6 @@ public class ConstantSQLite {
 	public static final String CATALOGUE_NAME = "name";
 	public static final String CATALOGUE_SEARCHED_NAME = "searched_name";
 	public static final String CATALOGUE_PARENT_CATALOGUE_ID = "parent_catalogue_id";
-
 	// catalogue
 	public static final String CATALOGUE_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "
 			+ CATALOGUE_TABLE
@@ -26,8 +25,30 @@ public class ConstantSQLite {
 			+ CATALOGUE_SEARCHED_NAME
 			+ " TEXT, "
 			+ CATALOGUE_PARENT_CATALOGUE_ID + " INTEGER)";
-	public static final String DROP_TABLE = "DROP TABLE IF EXISTS "
+	public static final String CATALOGUE_DROP_TABLE = "DROP TABLE IF EXISTS "
 			+ CATALOGUE_TABLE;
 	public static final String CATALOGUE_SELECT_ALL = "SELECT * FROM "
 			+ CATALOGUE_TABLE;
+
+	// sms table
+	public static final String SMS_TABLE = "sms";
+	public static final String SMS_ID = "id";
+	public static final String SMS_SMS_ID = "sms_id";
+	public static final String SMS_CONTENT = "content";
+	public static final String SMS_SEARCHED_CONTENT = "searched_content";
+	public static final String SMS_VOTES = "votes";
+	public static final String SMS_INDEX = "sms_index";
+	public static final String SMS_IS_FAVORITED = "is_favorited";
+	public static final String SMS_IS_USED = "is_used";
+	public static final String SMS_CATALOGUE_ID = "catalogue_id";
+	// sms
+	public static final String SMS_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "
+			+ SMS_TABLE + " (" + SMS_ID + " INTEGER PRIMARY KEY, " + SMS_SMS_ID
+			+ " INTEGER, " + SMS_CONTENT + " TEXT, " + SMS_SEARCHED_CONTENT
+			+ " TEXT, " + SMS_VOTES + " INTEGER, " + SMS_INDEX + " INTEGER, "
+			+ SMS_IS_FAVORITED + " INTEGER, " + SMS_IS_USED + " INTEGER, "
+			+ SMS_CATALOGUE_ID + " INTEGER)";
+	public static final String SMS_DROP_TABLE = "DROP TABLE IF EXISTS "
+			+ SMS_TABLE;
+	public static final String SMS_SELECT_ALL = "SELECT * FROM " + SMS_TABLE;
 }

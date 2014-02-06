@@ -5,11 +5,14 @@ import java.io.Serializable;
 public class SMS implements Serializable {
 	private static final long serialVersionUID = -7089411254136547927L;
 	private long id;
+	private long smsId;
 	private String content;
-	private String searched_content;
+	private String searchedContent;
+	private int votes;
+	private int index;
 	private boolean isFavorited;
 	private boolean isUsed;
-	private int catelogueID;
+	private int catalogueID;
 
 	public long getId() {
 		return id;
@@ -17,6 +20,14 @@ public class SMS implements Serializable {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public long getSmsId() {
+		return smsId;
+	}
+
+	public void setSmsId(long smsId) {
+		this.smsId = smsId;
 	}
 
 	public String getContent() {
@@ -27,12 +38,12 @@ public class SMS implements Serializable {
 		this.content = content;
 	}
 
-	public String getSearched_content() {
-		return searched_content;
+	public String getSearchedContent() {
+		return searchedContent;
 	}
 
-	public void setSearched_content(String searched_content) {
-		this.searched_content = searched_content;
+	public void setSearchedContent(String searchedContent) {
+		this.searchedContent = searchedContent;
 	}
 
 	public boolean isFavorited() {
@@ -51,15 +62,31 @@ public class SMS implements Serializable {
 		this.isUsed = isUsed;
 	}
 
-	public int getCatelogueID() {
-		return catelogueID;
+	public int getCatalogueID() {
+		return catalogueID;
 	}
 
-	public void setCatelogueID(int catelogueID) {
-		this.catelogueID = catelogueID;
+	public void setCatalogueID(int catalogueID) {
+		this.catalogueID = catalogueID;
+	}
+
+	public int getVotes() {
+		return votes;
+	}
+
+	public void setVotes(int votes) {
+		this.votes = votes;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
 	public String toString() {
-		return content;
+		return id + " : " + content + " : " + votes + " : " + index;
 	}
 }

@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.kakaolabs.smscute.database.table.Catalogue;
+import com.kakaolabs.smscute.database.table.SMS;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static MySQLiteHelper mInstance;
@@ -80,6 +81,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase database) {
 		try {
 			database.execSQL(ConstantSQLite.CATALOGUE_CREATE_TABLE);
+			database.execSQL(ConstantSQLite.SMS_CREATE_TABLE);
 		} catch (Exception e) {
 			Log.e(TAG, "onCreate", e);
 		}
@@ -94,7 +96,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		try {
 			// Drop older table if existed
-			db.execSQL(ConstantSQLite.DROP_TABLE);
+			db.execSQL(ConstantSQLite.CATALOGUE_DROP_TABLE);
+			db.execSQL(ConstantSQLite.SMS_DROP_TABLE);
 			// Create tables again
 			onCreate(db);
 		} catch (Exception e) {
@@ -213,6 +216,99 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			return catalogue;
 		} catch (Exception e) {
 			Log.e(TAG, "getCatalogueFromCursor", e);
+			return null;
+		}
+	}
+
+	/**
+	 * create sms
+	 * 
+	 * @author Daniel
+	 * @param sms
+	 * @return
+	 */
+	public SMS createSMS(SMS sms) {
+		SQLiteDatabase db = null;
+		try {
+			db = this.getMyWritableDatabase();
+			ContentValues values = new ContentValues();
+			values.put(ConstantSQLite.SMS_SMS_ID, sms.getSmsId());
+			values.put(ConstantSQLite.SMS_CONTENT, sms.getContent());
+			values.put(ConstantSQLite.SMS_SEARCHED_CONTENT,
+					sms.getSearchedContent());
+			values.put(ConstantSQLite.SMS_INDEX, sms.getIndex());
+			values.put(ConstantSQLite.SMS_VOTES, sms.getVotes());
+			values.put(ConstantSQLite.SMS_IS_FAVORITED, sms.isFavorited());
+			values.put(ConstantSQLite.SMS_IS_USED, sms.isUsed());
+			long id = db.insert(ConstantSQLite.SMS_TABLE, null, values);
+			sms.setId(id);
+			return sms;
+		} catch (Exception e) {
+			Log.e(TAG, "createSMS", e);
+			return null;
+		}
+	}
+
+	/**
+	 * get all sms
+	 * 
+	 * @author Daniel
+	 * @return
+	 */
+	public ArrayList<SMS> getAllSMS() {
+		try {
+			ArrayList<SMS> smsList = new ArrayList<SMS>();
+			String sql = ConstantSQLite.SMS_SELECT_ALL;
+			SQLiteDatabase db = this.getReadableDatabase();
+			Cursor cursor = db.rawQuery(sql, null);
+			while (cursor.moveToNext()) {
+				SMS sms = getSMSFromCursor(cursor);
+				if (sms != null) {
+					smsList.add(sms);
+				}
+			}
+			// return result
+			if (smsList != null && smsList.size() >= 0) {
+				return smsList;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "getAllSMS", e);
+			return null;
+		}
+	}
+
+	/**
+	 * get all fields of sms from cursor
+	 * 
+	 * @author Daniel
+	 * @param cursor
+	 * @return
+	 */
+	private SMS getSMSFromCursor(Cursor cursor) {
+		try {
+			SMS sms = new SMS();
+			sms.setId(cursor.getLong(0));
+			sms.setSmsId(cursor.getLong(1));
+			sms.setContent(cursor.getString(2));
+			sms.setSearchedContent(cursor.getString(3));
+			sms.setVotes(cursor.getInt(4));
+			sms.setIndex(cursor.getInt(5));
+			if (cursor.getInt(6) > 0) {
+				sms.setFavorited(true);
+			} else {
+				sms.setFavorited(false);
+			}
+			if (cursor.getInt(7) > 0) {
+				sms.setUsed(true);
+			} else {
+				sms.setUsed(false);
+			}
+			sms.setCatalogueID(cursor.getInt(8));
+			return sms;
+		} catch (Exception e) {
+			Log.e(TAG, "getSMSFromCursor", e);
 			return null;
 		}
 	}

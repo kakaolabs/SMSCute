@@ -5,11 +5,16 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.fortysevendeg.swipelistview.SwipeListView;
+import com.kakaolabs.smscute.database.MySQLiteHelper;
 import com.kakaolabs.smscute.database.table.Catalogue;
+import com.kakaolabs.smscute.database.table.SMS;
+import com.kakaolabs.smscute.parser.SMSParser;
 import com.kakaolabs.smscute.util.Constants;
 import com.kakaolabs.smscute.util.CurlLogUtil;
 import com.kakaolabs.smscute.util.SecureUtil;
@@ -23,14 +28,18 @@ import com.smskute.android.volley.toolbox.JsonArrayRequest;
 public class ListSMSActivity extends FragmentActivity {
 	private static final String TAG = "ListSMSActivity";
 	private Catalogue catalogue;
+	private ArrayList<SMS> smsList;
+	private SwipeListView swipeListView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		try {
 			super.onCreate(savedInstanceState);
 			getDataFromBundle();
+			getSMSInDatabase();
 			getSMSInServer(0);
 			setContentView(R.layout.list_sms_layout);
+			setComponentView();
 		} catch (Exception e) {
 			Log.e(TAG, "onCreate", e);
 		}
@@ -42,6 +51,24 @@ public class ListSMSActivity extends FragmentActivity {
 	}
 
 	/**
+	 * set component view
+	 * 
+	 * @author dungnh8
+	 */
+	private void setComponentView() {
+		swipeListView = (SwipeListView) findViewById(R.id.list_sms_swipe_listview);
+	}
+
+	/**
+	 * get sms in database
+	 * 
+	 * @author dungnh8
+	 */
+	private void getSMSInDatabase() {
+		smsList = MySQLiteHelper.getInstance(this).getAllSMS();
+	}
+
+	/**
 	 * get data from bundle
 	 * 
 	 * @author dungnh8
@@ -50,6 +77,7 @@ public class ListSMSActivity extends FragmentActivity {
 		try {
 			Intent intent = getIntent();
 			catalogue = (Catalogue) intent.getExtras().get(Constants.CATALOGUE);
+			Log.i(TAG, catalogue.toString());
 		} catch (Exception e) {
 			Log.e(TAG, "getDataFromBundle", e);
 		}
@@ -70,7 +98,10 @@ public class ListSMSActivity extends FragmentActivity {
 						@Override
 						public void onResponse(JSONArray response) {
 							try {
-								System.out.println(response);
+								smsList = SMSParser.getAllSMS(response,
+										catalogue.getCatelogueID());
+								new SaveSMSAsyncTask().execute();
+								drawSMSList();
 							} catch (Exception e) {
 								Log.e(TAG, "getSMSInServer", e);
 							}
@@ -102,16 +133,16 @@ public class ListSMSActivity extends FragmentActivity {
 		String apiSig = getApiSig(currentTime, offset);
 		ArrayList<String> params = new ArrayList<String>();
 		params.add(Constants.API_KEY_PARAM);
-		params.add(Constants.API_SIG_PARAM);
 		params.add(Constants.TIME_PARAM);
-		params.add(Constants.SIZE_PARAM);
-		params.add(Constants.OFFSET_PARAM);
+		params.add(Constants.API_SIG_PARAM);
+		// params.add(Constants.SIZE_PARAM);
+		// params.add(Constants.OFFSET_PARAM);
 		ArrayList<String> values = new ArrayList<String>();
 		values.add(Constants.API_KEY);
-		values.add(apiSig);
 		values.add(String.valueOf(currentTime));
-		values.add(Constants.SIZE);
-		values.add(String.valueOf(offset));
+		values.add(apiSig);
+		// values.add(Constants.SIZE);
+		// values.add(String.valueOf(offset));
 		String link = SecureUtil.getRequestLink(
 				Constants.DOMAIN + Constants.URL_SMS_ENDPOINT
 						+ catalogue.getCatelogueID() + "/", params, values);
@@ -129,15 +160,44 @@ public class ListSMSActivity extends FragmentActivity {
 		ArrayList<String> params = new ArrayList<String>();
 		params.add(Constants.API_KEY_PARAM);
 		params.add(Constants.TIME_PARAM);
-		params.add(Constants.SIZE_PARAM);
-		params.add(Constants.OFFSET_PARAM);
+		// params.add(Constants.SIZE_PARAM);
+		// params.add(Constants.OFFSET_PARAM);
 		ArrayList<String> values = new ArrayList<String>();
 		values.add(Constants.API_KEY);
 		values.add(String.valueOf(time));
-		values.add(Constants.SIZE);
-		values.add(String.valueOf(offset));
+		// values.add(Constants.SIZE);
+		// values.add(String.valueOf(offset));
 		return SecureUtil.getApiSig(
 				Constants.URL_SMS_ENDPOINT + catalogue.getCatelogueID() + "/",
 				Constants.API_SECRET, params, values);
+	}
+
+	/**
+	 * Save catalogue to database
+	 * 
+	 * @author Daniel
+	 * 
+	 */
+	private class SaveSMSAsyncTask extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... params) {
+			for (SMS sms : smsList) {
+				MySQLiteHelper.getInstance(ListSMSActivity.this).createSMS(sms);
+			}
+			return null;
+		}
+	}
+
+	/**
+	 * draw sms list
+	 * 
+	 * @author dungnh8
+	 */
+	private void drawSMSList() {
+		try {
+
+		} catch (Exception e) {
+			Log.e(TAG, "drawSMSList", e);
+		}
 	}
 }

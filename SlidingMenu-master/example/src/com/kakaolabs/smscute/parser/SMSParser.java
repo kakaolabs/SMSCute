@@ -7,15 +7,15 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.kakaolabs.smscute.database.table.Catalogue;
+import com.kakaolabs.smscute.database.table.SMS;
 import com.kakaolabs.smscute.util.StringUtil;
 
 public class SMSParser {
-	private static final String TAG = "CatalogueParser";
-	private static final String NAME = "name";
-	private static final String TYPE = "type";
+	private static final String TAG = "SMSParser";
+	private static final String CONTENT = "content";
+	private static final String VOTES = "votes";
 	private static final String ID = "id";
-	private static final String DATA = "data";
+	private static final String INDEX = "index";
 
 	/**
 	 * get all catalogue from json array
@@ -24,75 +24,44 @@ public class SMSParser {
 	 * @param jsonArray
 	 * @return
 	 */
-	public static ArrayList<Catalogue> getAllCatalogue(JSONArray jsonArray) {
+	public static ArrayList<SMS> getAllSMS(JSONArray jsonArray, int catalogueID) {
 		try {
-			ArrayList<Catalogue> catalogues = new ArrayList<Catalogue>();
+			ArrayList<SMS> smsList = new ArrayList<SMS>();
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-				ArrayList<Catalogue> list = getCatalogueFromObject(jsonObject);
-				if (list != null && list.size() > 0) {
-					catalogues.addAll(list);
+				SMS sms = getOneSMS(jsonObject);
+				if (sms != null) {
+					sms.setCatalogueID(catalogueID);
+					smsList.add(sms);
 				}
 			}
-			return catalogues;
+			return smsList;
 		} catch (Exception e) {
-			Log.e(TAG, "getAllCatalogue", e);
+			Log.e(TAG, "getAllSMS", e);
 			return null;
 		}
 	}
 
 	/**
-	 * get catalogue from object
-	 * 
-	 * @author dungnh8
-	 * @param jsonObject
-	 * @return
-	 */
-	private static ArrayList<Catalogue> getCatalogueFromObject(
-			JSONObject jsonObject) {
-		try {
-			ArrayList<Catalogue> catalogues = new ArrayList<Catalogue>();
-			// get parent
-			Catalogue parent = getOneCatalogue(jsonObject);
-			if (parent != null) {
-				catalogues.add(parent);
-			}
-			// get child
-			int type = Integer.parseInt(jsonObject.getString(TYPE));
-			if (type == 0) {
-				JSONArray childs = jsonObject.getJSONArray(DATA);
-				for (int i = 0; i < childs.length(); i++) {
-					Catalogue child = getOneCatalogue((JSONObject) childs
-							.get(i));
-					child.setParentCatalogueID(parent.getCatelogueID());
-					catalogues.add(child);
-				}
-			}
-			return catalogues;
-		} catch (Exception e) {
-			Log.e(TAG, "getCatalogueFromObject", e);
-			return null;
-		}
-	}
-
-	/**
-	 * get one catalogue from json object
+	 * get one sms from json object
 	 * 
 	 * @author Daniel
 	 * @param jsonObject
 	 * @return
 	 */
-	private static Catalogue getOneCatalogue(JSONObject jsonObject) {
+	private static SMS getOneSMS(JSONObject jsonObject) {
 		try {
-			Catalogue catalogue = new Catalogue();
+			SMS sms = new SMS();
 			int id = Integer.parseInt(jsonObject.getString(ID));
-			String name = jsonObject.getString(NAME);
-			catalogue.setCatelogueID(id);
-			catalogue.setName(name);
-			catalogue.setSearched_name(StringUtil.utf8ToAscii(name));
-			return catalogue;
+			String content = jsonObject.getString(CONTENT);
+			sms.setSmsId(id);
+			sms.setContent(content);
+			sms.setIndex(Integer.parseInt(jsonObject.getString(INDEX)));
+			sms.setVotes(Integer.parseInt(jsonObject.getString(VOTES)));
+			sms.setSearchedContent(StringUtil.utf8ToAscii(content));
+			return sms;
 		} catch (Exception e) {
-			Log.e(TAG, "getOneCatalogue", e);
+			Log.e(TAG, "getOneSMS", e);
 			return null;
 		}
 	}
