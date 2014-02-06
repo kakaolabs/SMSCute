@@ -146,13 +146,13 @@ public class CatalogueListFragment extends Fragment {
 									new SaveCatalogueAsyncTask().execute();
 								}
 							} catch (Exception e) {
-								Log.e(TAG, "getCategories", e);
+								Log.e(TAG, "getCategoriesInServer", e);
 							}
 						}
 					}, new Response.ErrorListener() {
 						@Override
 						public void onErrorResponse(VolleyError error) {
-							Log.e(TAG, "getCategories", error);
+							Log.e(TAG, "getCategoriesInServer", error);
 						}
 					});
 			getRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -160,7 +160,7 @@ public class CatalogueListFragment extends Fragment {
 					Constants.VOLLEY_BACKOFF_MULTIPLER));
 			VolleyHelper.getVolleyQueue(getActivity()).add(getRequest);
 		} catch (Exception e) {
-			Log.e(TAG, "crawlerOverview", e);
+			Log.e(TAG, "getCategoriesInServer", e);
 		}
 	}
 

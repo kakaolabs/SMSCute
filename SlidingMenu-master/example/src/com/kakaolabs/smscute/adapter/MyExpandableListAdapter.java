@@ -3,16 +3,21 @@ package com.kakaolabs.smscute.adapter;
 import java.util.HashMap;
 import java.util.List;
 
-import com.kakaolabs.smscute.R;
-import com.kakaolabs.smscute.database.table.Catalogue;
-
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+
+import com.kakaolabs.smscute.ListSMSActivity;
+import com.kakaolabs.smscute.R;
+import com.kakaolabs.smscute.database.table.Catalogue;
+import com.kakaolabs.smscute.util.Constants;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -20,6 +25,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 	private List<Catalogue> _listDataHeader; // header titles
 	// child data in format of header title, child title
 	private HashMap<Catalogue, List<Catalogue>> _listDataChild;
+	private static final String TAG = "MyExpandableListAdapter";
 
 	public MyExpandableListAdapter(Context context,
 			List<Catalogue> listDataHeader,
@@ -43,7 +49,6 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getChildView(int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-
 		final Catalogue catalogue = (Catalogue) getChild(groupPosition,
 				childPosition);
 		final String childText = catalogue.getName();
@@ -56,9 +61,35 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
 		TextView txtListChild = (TextView) convertView
 				.findViewById(R.id.lblListItem);
-
 		txtListChild.setText(childText);
+		// onClick listener
+		onRowClickListener(convertView, catalogue);
+
 		return convertView;
+	}
+
+	/**
+	 * @author dungnh8
+	 * @param view
+	 */
+	private void onRowClickListener(View view, final Catalogue catalogue) {
+		// check catalogue has child
+		// start sms list activity
+		view.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				try {
+					Intent intent = new Intent(_context, ListSMSActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable(Constants.CATALOGUE, catalogue);
+					intent.putExtras(bundle);
+					_context.startActivity(intent);
+				} catch (Exception e) {
+					Log.e(TAG, "onRowClickListener", e);
+				}
+			}
+		});
 	}
 
 	@Override
