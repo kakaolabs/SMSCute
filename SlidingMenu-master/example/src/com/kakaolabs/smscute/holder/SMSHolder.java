@@ -47,7 +47,7 @@ public class SMSHolder extends AbsContentHolder {
 		content = (TextView) rowView.findViewById(R.id.sms_row_content);
 		send = (ImageView) rowView.findViewById(R.id.sms_row_send);
 		like = (ImageView) rowView.findViewById(R.id.sms_row_like);
-		frontLayout = (RelativeLayout) rowView.findViewById(R.id.sms_row_font);
+		frontLayout = (RelativeLayout) rowView.findViewById(R.id.sms_row_front);
 		setListener();
 		rowView.setTag(holder);
 		setConvertView(rowView);
