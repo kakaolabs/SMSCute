@@ -24,6 +24,9 @@
         <activity
             android:name="com.kakaolabs.smscute.ListSMSActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name="com.kakaolabs.smscute.SMSDetailActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
     </application>
 
 </manifest>

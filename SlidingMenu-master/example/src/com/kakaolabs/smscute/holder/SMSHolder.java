@@ -1,6 +1,8 @@
 package com.kakaolabs.smscute.holder;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.kakaolabs.smscute.R;
+import com.kakaolabs.smscute.SMSDetailActivity;
 import com.kakaolabs.smscute.database.table.SMS;
+import com.kakaolabs.smscute.util.Constants;
 
 public class SMSHolder extends AbsContentHolder {
 	private TextView content;
@@ -39,24 +43,34 @@ public class SMSHolder extends AbsContentHolder {
 		content = (TextView) rowView.findViewById(R.id.sms_row_content);
 		send = (Button) rowView.findViewById(R.id.sms_row_send);
 		like = (Button) rowView.findViewById(R.id.sms_row_like);
-		setListener();
+		setListener(rowView);
+		rowView.setTag(holder);
+		setConvertView(rowView);
+	}
+
+	private void setListener(View rowView) {
+		setRowListener(rowView);
+		setSendListener();
+		setLikeListener();
+	}
+
+	private void setRowListener(View rowView) {
 		rowView.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				try {
+					Intent intent = new Intent(mContext,
+							SMSDetailActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable(Constants.SMS, sms);
+					intent.putExtras(bundle);
+					mContext.startActivity(intent);
 				} catch (Exception e) {
 					Log.i(TAG, "initHolder", e);
 				}
 			}
 		});
-		rowView.setTag(holder);
-		setConvertView(rowView);
-	}
-
-	private void setListener() {
-		setSendListener();
-		setLikeListener();
 	}
 
 	private void setSendListener() {

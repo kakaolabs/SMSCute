@@ -9,6 +9,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.fortysevendeg.swipelistview.SwipeListView;
 import com.kakaolabs.smscute.adapter.SMSAdapter;
@@ -32,6 +35,7 @@ public class ListSMSActivity extends FragmentActivity {
 	private ArrayList<SMS> smsList;
 	private SwipeListView swipeListView;
 	private SMSAdapter smsAdapter;
+	private ImageView backButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class ListSMSActivity extends FragmentActivity {
 			getSMSInServer(0);
 			setContentView(R.layout.list_sms_layout);
 			setComponentView();
+			setListener();
 		} catch (Exception e) {
 			Log.e(TAG, "onCreate", e);
 		}
@@ -59,6 +64,33 @@ public class ListSMSActivity extends FragmentActivity {
 	 */
 	private void setComponentView() {
 		swipeListView = (SwipeListView) findViewById(R.id.list_sms_swipe_listview);
+		TextView title = (TextView) findViewById(R.id.header_title);
+		title.setText(catalogue.getName());
+		backButton = (ImageView) findViewById(R.id.header_back_button);
+	}
+
+	/**
+	 * set listener
+	 * 
+	 * @author dungnh8
+	 */
+	private void setListener() {
+		setBackListener();
+	}
+
+	/**
+	 * set back listener
+	 * 
+	 * @author dungnh8
+	 */
+	private void setBackListener() {
+		backButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 
 	/**
