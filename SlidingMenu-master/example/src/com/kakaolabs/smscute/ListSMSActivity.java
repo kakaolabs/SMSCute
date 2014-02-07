@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.fortysevendeg.swipelistview.SwipeListView;
+import com.kakaolabs.smscute.adapter.SMSAdapter;
 import com.kakaolabs.smscute.database.MySQLiteHelper;
 import com.kakaolabs.smscute.database.table.Catalogue;
 import com.kakaolabs.smscute.database.table.SMS;
@@ -30,6 +31,7 @@ public class ListSMSActivity extends FragmentActivity {
 	private Catalogue catalogue;
 	private ArrayList<SMS> smsList;
 	private SwipeListView swipeListView;
+	private SMSAdapter smsAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -195,7 +197,8 @@ public class ListSMSActivity extends FragmentActivity {
 	 */
 	private void drawSMSList() {
 		try {
-
+			smsAdapter = new SMSAdapter(this, smsList);
+			swipeListView.setAdapter(smsAdapter);
 		} catch (Exception e) {
 			Log.e(TAG, "drawSMSList", e);
 		}

@@ -7,10 +7,16 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
+    <include
+        android:id="@+id/header"
+        layout="@layout/header" />
+
     <com.fortysevendeg.swipelistview.SwipeListView
         android:id="@+id/list_sms_swipe_listview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:background="@drawable/sms_list_background"
         android:listSelector="#00000000"
         swipe:swipeBackView="@+id/back"
         swipe:swipeCloseAllItemsWhenMoveList="true"

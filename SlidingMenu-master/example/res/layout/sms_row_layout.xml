@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/back"
+        style="@style/ListBackContent"
+        android:tag="back" >
+
+        <Button
+            android:id="@+id/sms_row_send"
+            style="@style/ListButtonAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send" />
+
+        <Button
+            android:id="@+id/sms_row_like"
+            style="@style/ListButtonAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/like" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/front"
+        style="@style/ListFrontContent"
+        android:orientation="vertical"
+        android:tag="front" >
+
+        <TextView
+            android:id="@+id/sms_row_content"
+            style="@style/sms_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</FrameLayout>

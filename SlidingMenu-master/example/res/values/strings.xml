@@ -12,5 +12,8 @@
     <string name="vote_app">Vote SMS Cute</string>
     <string name="news">NEWS</string>
     <string name="search_hint">Enter name, content of catelogue or message</string>
+    <string name="send">Send</string>
+    <string name="like">Like</string>
+    <string name="newTag">newTag</string>
 
 </resources>

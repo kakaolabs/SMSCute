@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/child_catalogue_height"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/child_catalogue_name"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/child_catalogue_height"
+        android:background="@drawable/child_catalogue_background"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:paddingBottom="@dimen/child_catalogue_padding_bottom"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingTop="@dimen/child_catalogue_padding_top"
+        android:textSize="@dimen/text_size_level_3" />
+
+</LinearLayout>
