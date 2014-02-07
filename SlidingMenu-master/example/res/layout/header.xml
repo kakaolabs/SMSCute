@@ -8,10 +8,10 @@
     <ImageView
         android:id="@+id/header_back_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:paddingLeft="@dimen/header_back_button_padding_left"
         android:paddingRight="@dimen/header_back_button_padding_right"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_back" />
 
     <TextView
         android:id="@+id/header_title"

@@ -17,12 +17,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/header"
         android:background="@drawable/sms_list_background"
-        android:listSelector="#00000000"
-        swipe:swipeBackView="@+id/back"
+        android:listSelector="@color/gray"
+        swipe:swipeBackView="@+id/sms_row_back"
         swipe:swipeCloseAllItemsWhenMoveList="true"
         swipe:swipeDrawableChecked="@drawable/choice_selected"
         swipe:swipeDrawableUnchecked="@drawable/choice_unselected"
-        swipe:swipeFrontView="@+id/front"
+        swipe:swipeFrontView="@+id/sms_row_font"
         swipe:swipeMode="both" />
 
 </RelativeLayout>

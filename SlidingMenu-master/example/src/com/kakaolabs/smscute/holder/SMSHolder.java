@@ -7,18 +7,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kakaolabs.smscute.R;
 import com.kakaolabs.smscute.SMSDetailActivity;
+import com.kakaolabs.smscute.database.MySQLiteHelper;
 import com.kakaolabs.smscute.database.table.SMS;
 import com.kakaolabs.smscute.util.Constants;
 
 public class SMSHolder extends AbsContentHolder {
 	private TextView content;
-	private Button send;
-	private Button like;
+	private ImageView send;
+	private ImageView like;
+	private RelativeLayout frontLayout;
 	private Context mContext;
 	private static SMSHolder holder;
 	private SMS sms;
@@ -33,6 +36,7 @@ public class SMSHolder extends AbsContentHolder {
 	public void setElemnts(Object obj) {
 		sms = (SMS) obj;
 		content.setText(sms.getContent());
+		setImageFavorite();
 	}
 
 	@Override
@@ -41,21 +45,27 @@ public class SMSHolder extends AbsContentHolder {
 		rowView = layoutInflater
 				.inflate(R.layout.sms_row_layout, parent, false);
 		content = (TextView) rowView.findViewById(R.id.sms_row_content);
-		send = (Button) rowView.findViewById(R.id.sms_row_send);
-		like = (Button) rowView.findViewById(R.id.sms_row_like);
-		setListener(rowView);
+		send = (ImageView) rowView.findViewById(R.id.sms_row_send);
+		like = (ImageView) rowView.findViewById(R.id.sms_row_like);
+		frontLayout = (RelativeLayout) rowView.findViewById(R.id.sms_row_font);
+		setListener();
 		rowView.setTag(holder);
 		setConvertView(rowView);
 	}
 
-	private void setListener(View rowView) {
-		setRowListener(rowView);
+	private void setListener() {
+		setRowListener();
 		setSendListener();
 		setLikeListener();
 	}
 
-	private void setRowListener(View rowView) {
-		rowView.setOnClickListener(new View.OnClickListener() {
+	/**
+	 * row click listener
+	 * 
+	 * @author dungnh8
+	 */
+	private void setRowListener() {
+		frontLayout.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
@@ -73,21 +83,60 @@ public class SMSHolder extends AbsContentHolder {
 		});
 	}
 
+	/**
+	 * send sms
+	 * 
+	 * @author dungnh8
+	 */
 	private void setSendListener() {
 		send.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				try {
+					// set sms to be used
+					sms.setUsed(true);
+					MySQLiteHelper.getInstance(mContext).updateSMS(sms);
+					// send sms
+					Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+					i.putExtra("sms_body", sms.getContent());
+					i.setType("vnd.android-dir/mms-sms");
+					mContext.startActivity(i);
+				} catch (Exception e) {
+					Log.e(TAG, "setSendListener", e);
+				}
 			}
 		});
 	}
 
+	/**
+	 * set sms to be favorite
+	 * 
+	 * @author dungnh8
+	 */
 	private void setLikeListener() {
 		like.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				boolean isFavorited = !sms.isFavorited();
+				sms.setFavorited(isFavorited);
+				setImageFavorite();
+				MySQLiteHelper.getInstance(mContext).updateSMS(sms);
 			}
 		});
+	}
+
+	/**
+	 * set image to be favorite or not
+	 * 
+	 * @author dungnh8
+	 */
+	private void setImageFavorite() {
+		if (sms.isFavorited()) {
+			like.setImageResource(R.drawable.ic_favorite_check);
+		} else {
+			like.setImageResource(R.drawable.ic_favorite);
+		}
 	}
 }

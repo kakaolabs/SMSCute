@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.fortysevendeg.swipelistview.SwipeListView;
 import com.kakaolabs.smscute.database.table.SMS;
 import com.kakaolabs.smscute.holder.SMSHolder;
 
@@ -50,7 +49,7 @@ public class SMSAdapter extends BaseAdapter {
 		}
 		holder.setElemnts(sms);
 		convertView = holder.getConvertView();
-		((SwipeListView) parent).recycle(convertView, position);
+		// ((SwipeListView) parent).recycle(convertView, position);
 		return convertView;
 	}
 }

@@ -312,4 +312,27 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			return null;
 		}
 	}
+
+	/**
+	 * update sms
+	 * 
+	 * @author dungnh8
+	 * @param sms
+	 */
+	public int updateSMS(SMS sms) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(ConstantSQLite.SMS_SMS_ID, sms.getSmsId());
+		values.put(ConstantSQLite.SMS_CONTENT, sms.getContent());
+		values.put(ConstantSQLite.SMS_SEARCHED_CONTENT,
+				sms.getSearchedContent());
+		values.put(ConstantSQLite.SMS_INDEX, sms.getIndex());
+		values.put(ConstantSQLite.SMS_VOTES, sms.getVotes());
+		values.put(ConstantSQLite.SMS_IS_FAVORITED, sms.isFavorited());
+		values.put(ConstantSQLite.SMS_IS_USED, sms.isUsed());
+		// updating row
+		return db.update(ConstantSQLite.SMS_TABLE, values,
+				ConstantSQLite.SMS_ID + " = ?",
+				new String[] { String.valueOf(sms.getId()) });
+	}
 }
