@@ -66,7 +66,7 @@
     </style>
 
     <style name="ListButtonAction">
-        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_margin">20dp</item>
     </style>
 
     <style name="Line">

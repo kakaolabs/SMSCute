@@ -6,7 +6,7 @@
     <LinearLayout
         android:id="@+id/sms_row_back"
         style="@style/ListBackContent"
-        android:gravity="right"
+        android:gravity="right|center_vertical"
         android:orientation="horizontal"
         android:tag="back" >
 
