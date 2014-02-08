@@ -22,5 +22,6 @@ public class Constants {
 	public static final int VOLLEY_BACKOFF_MULTIPLER = 5;
 	// bundle
 	public static final String CATALOGUE = "CATALOGUE";
-	public static final String SMS = "SMS";
+	public static final String SMS_LIST = "SMS_LIST";
+	public static final String SMS_POSITION = "SMS_POSITION";
 }

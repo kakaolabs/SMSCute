@@ -1,5 +1,7 @@
 package com.kakaolabs.smscute;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -14,6 +16,8 @@ import com.kakaolabs.smscute.util.Constants;
 public class SMSDetailActivity extends FragmentActivity {
 	private static final String TAG = "SMSDetailActivity";
 	private SMS sms;
+	private ArrayList<SMS> smsList;
+	private int position;
 	private TextView content;
 	private ImageView backButton;
 
@@ -78,7 +82,10 @@ public class SMSDetailActivity extends FragmentActivity {
 	private void getDataFromBundle() {
 		try {
 			Intent intent = getIntent();
-			sms = (SMS) intent.getExtras().get(Constants.SMS);
+			Bundle bundle = intent.getExtras();
+			smsList = (ArrayList<SMS>) bundle.get(Constants.SMS_LIST);
+			position = bundle.getInt(Constants.SMS_POSITION);
+			sms = smsList.get(position);
 			Log.i(TAG, sms.toString());
 		} catch (Exception e) {
 			Log.e(TAG, "getDataFromBundle", e);

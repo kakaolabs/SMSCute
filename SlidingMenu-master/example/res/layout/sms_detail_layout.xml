@@ -17,6 +17,8 @@
         android:layout_height="fill_parent"
         android:gravity="center"
         android:paddingLeft="@dimen/sms_detail_padding_left"
-        android:paddingRight="@dimen/sms_detail_padding_right" />
+        android:paddingRight="@dimen/sms_detail_padding_right"
+        android:textColor="@color/dark_gray"
+        android:textSize="@dimen/text_size_level_3" />
 
 </RelativeLayout>

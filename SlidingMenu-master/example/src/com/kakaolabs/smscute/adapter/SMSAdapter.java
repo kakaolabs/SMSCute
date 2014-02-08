@@ -42,14 +42,13 @@ public class SMSAdapter extends BaseAdapter {
 		final SMS sms = getItem(position);
 		SMSHolder holder;
 		if (convertView == null) {
-			holder = new SMSHolder(mContext);
+			holder = new SMSHolder(mContext, position, data);
 			holder.initHolder(parent, convertView, position, inflater);
 		} else {
 			holder = (SMSHolder) convertView.getTag();
 		}
 		holder.setElemnts(sms);
 		convertView = holder.getConvertView();
-		// ((SwipeListView) parent).recycle(convertView, position);
 		return convertView;
 	}
 }

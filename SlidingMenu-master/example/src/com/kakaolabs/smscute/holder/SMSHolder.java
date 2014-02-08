@@ -1,5 +1,8 @@
 package com.kakaolabs.smscute.holder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kakaolabs.smscute.R;
@@ -21,14 +23,17 @@ public class SMSHolder extends AbsContentHolder {
 	private TextView content;
 	private ImageView send;
 	private ImageView like;
-	private RelativeLayout frontLayout;
 	private Context mContext;
 	private static SMSHolder holder;
 	private SMS sms;
+	private int position;
+	private ArrayList<SMS> smsList;
 	private static final String TAG = "SMSHolder";
 
-	public SMSHolder(Context mContext) {
+	public SMSHolder(Context mContext, int position, List<SMS> smsList) {
 		this.mContext = mContext;
+		this.position = position;
+		this.smsList = (ArrayList<SMS>) smsList;
 		holder = this;
 	}
 
@@ -47,7 +52,6 @@ public class SMSHolder extends AbsContentHolder {
 		content = (TextView) rowView.findViewById(R.id.sms_row_content);
 		send = (ImageView) rowView.findViewById(R.id.sms_row_send);
 		like = (ImageView) rowView.findViewById(R.id.sms_row_like);
-		frontLayout = (RelativeLayout) rowView.findViewById(R.id.sms_row_front);
 		setListener();
 		rowView.setTag(holder);
 		setConvertView(rowView);
@@ -65,7 +69,7 @@ public class SMSHolder extends AbsContentHolder {
 	 * @author dungnh8
 	 */
 	private void setRowListener() {
-		frontLayout.setOnClickListener(new View.OnClickListener() {
+		content.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
@@ -73,7 +77,8 @@ public class SMSHolder extends AbsContentHolder {
 					Intent intent = new Intent(mContext,
 							SMSDetailActivity.class);
 					Bundle bundle = new Bundle();
-					bundle.putSerializable(Constants.SMS, sms);
+					bundle.putSerializable(Constants.SMS_LIST, smsList);
+					bundle.putInt(Constants.SMS_POSITION, position);
 					intent.putExtras(bundle);
 					mContext.startActivity(intent);
 				} catch (Exception e) {
