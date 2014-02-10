@@ -229,7 +229,7 @@ public class ListSMSActivity extends FragmentActivity {
 	 */
 	private void drawSMSList() {
 		try {
-			smsAdapter = new SMSAdapter(this, smsList);
+			smsAdapter = new SMSAdapter(this, smsList, catalogue.getName());
 			swipeListView.setAdapter(smsAdapter);
 		} catch (Exception e) {
 			Log.e(TAG, "drawSMSList", e);

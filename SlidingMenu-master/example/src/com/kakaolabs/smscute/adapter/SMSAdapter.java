@@ -15,10 +15,12 @@ public class SMSAdapter extends BaseAdapter {
 	private List<SMS> data;
 	private Context mContext;
 	private LayoutInflater inflater;
+	private String catalogueTitle;
 
-	public SMSAdapter(Context context, List<SMS> data) {
+	public SMSAdapter(Context context, List<SMS> data, String catalogueTitle) {
 		this.mContext = context;
 		this.data = data;
+		this.catalogueTitle = catalogueTitle;
 		this.inflater = LayoutInflater.from(this.mContext);
 	}
 
@@ -42,7 +44,7 @@ public class SMSAdapter extends BaseAdapter {
 		final SMS sms = getItem(position);
 		SMSHolder holder;
 		if (convertView == null) {
-			holder = new SMSHolder(mContext, position, data);
+			holder = new SMSHolder(mContext, position, data, catalogueTitle);
 			holder.initHolder(parent, convertView, position, inflater);
 		} else {
 			holder = (SMSHolder) convertView.getTag();

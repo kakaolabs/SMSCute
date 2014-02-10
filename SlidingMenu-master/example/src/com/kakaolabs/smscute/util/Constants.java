@@ -25,4 +25,5 @@ public class Constants {
 	public static final String SMS = "SMS";
 	public static final String SMS_LIST = "SMS_LIST";
 	public static final String SMS_POSITION = "SMS_POSITION";
+	public static final String CATALOGUE_TITLE = "CATALOGUE_TITLE";
 }

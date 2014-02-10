@@ -22,4 +22,28 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_level_3" />
 
+    <LinearLayout
+        android:id="@+id/header_button"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:gravity="right"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/header_send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:paddingLeft="@dimen/header_send_button_padding_left"
+            android:paddingRight="@dimen/header_send_button_padding_right"
+            android:src="@drawable/ic_sms" />
+
+        <ImageView
+            android:id="@+id/header_favorite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:paddingLeft="@dimen/header_favorite_button_padding_left"
+            android:paddingRight="@dimen/header_favorite_button_padding_right"
+            android:src="@drawable/ic_favorite" />
+    </LinearLayout>
+
 </LinearLayout>
