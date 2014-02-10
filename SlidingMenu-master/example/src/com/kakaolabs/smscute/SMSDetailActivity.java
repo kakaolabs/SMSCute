@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.kakaolabs.smscute.adapter.FragmentAdapter;
 import com.kakaolabs.smscute.database.table.SMS;
 import com.kakaolabs.smscute.util.Constants;
 
@@ -18,7 +19,8 @@ public class SMSDetailActivity extends FragmentActivity {
 	private SMS sms;
 	private ArrayList<SMS> smsList;
 	private int position;
-	private TextView content;
+	private FragmentAdapter mAdapter;
+	private ViewPager mPager;
 	private ImageView backButton;
 
 	@Override
@@ -29,7 +31,6 @@ public class SMSDetailActivity extends FragmentActivity {
 			setContentView(R.layout.sms_detail_layout);
 			setComponentView();
 			setListener();
-			drawSMS();
 		} catch (Exception e) {
 			Log.e(TAG, "onCreate", e);
 		}
@@ -46,8 +47,14 @@ public class SMSDetailActivity extends FragmentActivity {
 	 * @author dungnh8
 	 */
 	private void setComponentView() {
+		// view pager
+		mAdapter = new FragmentAdapter(getSupportFragmentManager(), this,
+				smsList);
+		mPager = (ViewPager) findViewById(R.id.pager);
+		mPager.setAdapter(mAdapter);
+		mPager.setCurrentItem(position);
+		// button
 		backButton = (ImageView) findViewById(R.id.header_back_button);
-		content = (TextView) findViewById(R.id.sms_detail_content);
 	}
 
 	/**
@@ -89,19 +96,6 @@ public class SMSDetailActivity extends FragmentActivity {
 			Log.i(TAG, sms.toString());
 		} catch (Exception e) {
 			Log.e(TAG, "getDataFromBundle", e);
-		}
-	}
-
-	/**
-	 * draw sms
-	 * 
-	 * @author dungnh8
-	 */
-	private void drawSMS() {
-		try {
-			content.setText(sms.getContent());
-		} catch (Exception e) {
-			Log.e(TAG, "drawSMS", e);
 		}
 	}
 }
