@@ -12,14 +12,14 @@ import android.widget.BaseAdapter;
 import com.kakaolabs.smscute.database.table.SMS;
 import com.kakaolabs.smscute.holder.SMSHolder;
 
-public class SMSAdapter extends BaseAdapter {
+public class SMSListAdapter extends BaseAdapter {
 	private List<SMS> data;
 	private Context mContext;
 	private LayoutInflater inflater;
 	private String catalogueTitle;
 	private static final String TAG = "SMSAdapter";
 
-	public SMSAdapter(Context context, List<SMS> data, String catalogueTitle) {
+	public SMSListAdapter(Context context, List<SMS> data, String catalogueTitle) {
 		this.mContext = context;
 		this.data = data;
 		this.catalogueTitle = catalogueTitle;
