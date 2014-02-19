@@ -7,14 +7,52 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
+    <LinearLayout
+        android:id="@+id/sms_content_header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <Button
+            android:id="@+id/sms_content_send_sms"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sms_detail_button_height"
+            android:layout_marginBottom="@dimen/sms_detail_button_padding_bottom"
+            android:layout_marginLeft="@dimen/sms_detail_button_padding_left"
+            android:layout_marginRight="@dimen/sms_detail_button_padding_right"
+            android:layout_marginTop="@dimen/sms_detail_button_padding_top"
+            android:layout_weight="1"
+            android:background="@drawable/button"
+            android:clickable="true"
+            android:text="@string/send"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/sms_content_like_sms"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sms_detail_button_height"
+            android:layout_marginBottom="@dimen/sms_detail_button_padding_bottom"
+            android:layout_marginLeft="@dimen/sms_detail_button_padding_left"
+            android:layout_marginRight="@dimen/sms_detail_button_padding_right"
+            android:layout_marginTop="@dimen/sms_detail_button_padding_top"
+            android:layout_weight="1"
+            android:background="@drawable/button"
+            android:clickable="true"
+            android:text="@string/like"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/sms_content_textview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_below="@id/sms_content_header"
         android:gravity="center"
         android:paddingLeft="@dimen/sms_detail_padding_left"
         android:paddingRight="@dimen/sms_detail_padding_right"
         android:textColor="@color/dark_gray"
-        android:textSize="@dimen/text_size_level_3" />
+        android:textSize="@dimen/text_size_level_2" />
 
 </RelativeLayout>
