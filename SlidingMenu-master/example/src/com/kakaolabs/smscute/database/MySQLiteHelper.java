@@ -280,6 +280,28 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	}
 
 	/**
+	 * get sms by id
+	 * 
+	 * @author Daniel
+	 * @return
+	 */
+	public SMS getSMSByID(long id) {
+		try {
+			String sql = ConstantSQLite.SMS_SELECT_BY_ID + "'" + id + "'";
+			SQLiteDatabase db = this.getReadableDatabase();
+			Cursor cursor = db.rawQuery(sql, null);
+			while (cursor.moveToFirst()) {
+				SMS sms = getSMSFromCursor(cursor);
+				return sms;
+			}
+			return null;
+		} catch (Exception e) {
+			Log.e(TAG, "getSMSByID", e);
+			return null;
+		}
+	}
+
+	/**
 	 * get all fields of sms from cursor
 	 * 
 	 * @author Daniel
@@ -295,12 +317,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			sms.setSearchedContent(cursor.getString(3));
 			sms.setVotes(cursor.getInt(4));
 			sms.setIndex(cursor.getInt(5));
-			if (cursor.getInt(6) > 0) {
+			if (cursor.getInt(6) == 1) {
 				sms.setFavorited(true);
 			} else {
 				sms.setFavorited(false);
 			}
-			if (cursor.getInt(7) > 0) {
+			if (cursor.getInt(7) == 1) {
 				sms.setUsed(true);
 			} else {
 				sms.setUsed(false);
@@ -328,8 +350,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				sms.getSearchedContent());
 		values.put(ConstantSQLite.SMS_INDEX, sms.getIndex());
 		values.put(ConstantSQLite.SMS_VOTES, sms.getVotes());
-		values.put(ConstantSQLite.SMS_IS_FAVORITED, sms.isFavorited());
-		values.put(ConstantSQLite.SMS_IS_USED, sms.isUsed());
+		if (sms.isFavorited()) {
+			values.put(ConstantSQLite.SMS_IS_FAVORITED, 1);
+		} else {
+			values.put(ConstantSQLite.SMS_IS_FAVORITED, 0);
+		}
+		if (sms.isUsed()) {
+			values.put(ConstantSQLite.SMS_IS_USED, 1);
+		} else {
+			values.put(ConstantSQLite.SMS_IS_USED, 0);
+		}
 		// updating row
 		return db.update(ConstantSQLite.SMS_TABLE, values,
 				ConstantSQLite.SMS_ID + " = ?",

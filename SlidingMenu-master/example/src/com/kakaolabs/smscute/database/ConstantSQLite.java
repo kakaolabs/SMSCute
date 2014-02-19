@@ -51,4 +51,6 @@ public class ConstantSQLite {
 	public static final String SMS_DROP_TABLE = "DROP TABLE IF EXISTS "
 			+ SMS_TABLE;
 	public static final String SMS_SELECT_ALL = "SELECT * FROM " + SMS_TABLE;
+	public static final String SMS_SELECT_BY_ID = "SELECT * FROM " + SMS_TABLE
+			+ " WHERE " + SMS_ID + " = ";
 }

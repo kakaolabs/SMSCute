@@ -1,7 +1,9 @@
 package com.kakaolabs.smscute.fragments;
 
 import com.kakaolabs.smscute.R;
+import com.kakaolabs.smscute.database.MySQLiteHelper;
 import com.kakaolabs.smscute.database.table.SMS;
+import com.kakaolabs.smscute.helper.DrawHelper;
 import com.kakaolabs.smscute.util.Constants;
 
 import android.os.Bundle;
@@ -48,7 +50,10 @@ public class SMSDetailFragment extends Fragment {
 	private void setArguments() {
 		try {
 			sms = (SMS) getArguments().getSerializable(Constants.SMS);
+			sms = MySQLiteHelper.getInstance(getActivity()).getSMSByID(
+					sms.getId());
 			Log.i(TAG, sms.toString());
+			DrawHelper.drawFavoriteImageButton(sms);
 		} catch (Exception e) {
 			Log.e(TAG, "setArguments", e);
 		}
@@ -63,7 +68,6 @@ public class SMSDetailFragment extends Fragment {
 		try {
 			String contentText = "<p style='line-height:200%;'>"
 					+ sms.getContent() + "<p/>";
-			Log.i(TAG, contentText);
 			content.setText(Html.fromHtml(contentText));
 		} catch (Exception e) {
 			Log.e(TAG, "drawData", e);

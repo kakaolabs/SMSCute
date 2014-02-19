@@ -13,11 +13,11 @@ import com.kakaolabs.smscute.fragments.SMSDetailFragment;
 import com.kakaolabs.smscute.util.Constants;
 import com.kakaolabs.smscute.viewpagerindicator.IconPagerAdapter;
 
-public class FragmentAdapter extends FragmentStatePagerAdapter implements
+public class SMSFragmentAdapter extends FragmentStatePagerAdapter implements
 		IconPagerAdapter {
 	private ArrayList<SMS> smsList;
 
-	public FragmentAdapter(FragmentManager fm, Context mContext,
+	public SMSFragmentAdapter(FragmentManager fm, Context mContext,
 			ArrayList<SMS> smsList) {
 		super(fm);
 		this.smsList = smsList;

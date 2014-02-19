@@ -87,6 +87,7 @@ public class SMS implements Serializable {
 	}
 
 	public String toString() {
-		return id + " : " + content + " : " + votes + " : " + index;
+		return id + " : " + content + " : " + votes + " : " + index + " : "
+				+ isFavorited;
 	}
 }

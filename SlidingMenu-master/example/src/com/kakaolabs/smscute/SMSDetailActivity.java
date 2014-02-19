@@ -3,6 +3,7 @@ package com.kakaolabs.smscute;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -11,18 +12,21 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kakaolabs.smscute.adapter.FragmentAdapter;
+import com.kakaolabs.smscute.adapter.SMSFragmentAdapter;
 import com.kakaolabs.smscute.database.MySQLiteHelper;
 import com.kakaolabs.smscute.database.table.SMS;
+import com.kakaolabs.smscute.helper.DrawHelper;
+import com.kakaolabs.smscute.listener.SMSDetailListener;
 import com.kakaolabs.smscute.util.Constants;
 
-public class SMSDetailActivity extends FragmentActivity {
+public class SMSDetailActivity extends FragmentActivity implements
+		SMSDetailListener {
 	private static final String TAG = "SMSDetailActivity";
 	private SMS sms;
 	private ArrayList<SMS> smsList;
 	private int position;
 	private String catalogueTitle;
-	private FragmentAdapter mAdapter;
+	private SMSFragmentAdapter mAdapter;
 	private ViewPager mPager;
 	private ImageView backButton, sendButton, favoriteButton;
 
@@ -43,6 +47,13 @@ public class SMSDetailActivity extends FragmentActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		DrawHelper.addSMSDetailListener(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		DrawHelper.removeSMSDetailListener(this);
 	}
 
 	/**
@@ -52,7 +63,7 @@ public class SMSDetailActivity extends FragmentActivity {
 	 */
 	private void setComponentView() {
 		// view pager
-		mAdapter = new FragmentAdapter(getSupportFragmentManager(), this,
+		mAdapter = new SMSFragmentAdapter(getSupportFragmentManager(), this,
 				smsList);
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setAdapter(mAdapter);
@@ -105,14 +116,15 @@ public class SMSDetailActivity extends FragmentActivity {
 			public void onClick(View v) {
 				int currentPosition = mPager.getCurrentItem();
 				SMS currentSMS = smsList.get(currentPosition);
+				Log.i(TAG, currentSMS.toString());
 				// set sms to be used
-				currentSMS.setUsed(true);
-				MySQLiteHelper.getInstance(SMSDetailActivity.this).updateSMS(
-						currentSMS);
+				SMS[] smsParams = { currentSMS };
+				new UpdateUsedSMSAsyncTask().execute(smsParams);
 				// send sms
-				Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-				i.putExtra("sms_body", currentSMS.getContent());
-				i.setType("vnd.android-dir/mms-sms");
+				Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+				intent.putExtra("sms_body", currentSMS.getContent());
+				intent.setType("vnd.android-dir/mms-sms");
+				startActivity(intent);
 			}
 		});
 	}
@@ -132,8 +144,8 @@ public class SMSDetailActivity extends FragmentActivity {
 				boolean isFavorited = !currentSMS.isFavorited();
 				currentSMS.setFavorited(isFavorited);
 				setImageFavorite(currentSMS);
-				MySQLiteHelper.getInstance(SMSDetailActivity.this).updateSMS(
-						currentSMS);
+				SMS[] smsParams = { currentSMS };
+				new UpdateFavoritedSMSAsyncTask().execute(smsParams);
 			}
 		});
 	}
@@ -168,5 +180,45 @@ public class SMSDetailActivity extends FragmentActivity {
 		} catch (Exception e) {
 			Log.e(TAG, "getDataFromBundle", e);
 		}
+	}
+
+	/**
+	 * update this sms to be used
+	 * 
+	 * @author dungnh8
+	 * 
+	 */
+	private class UpdateUsedSMSAsyncTask extends AsyncTask<SMS, Void, Void> {
+		@Override
+		protected Void doInBackground(SMS... params) {
+			SMS currentSMS = params[0];
+			currentSMS.setUsed(true);
+			MySQLiteHelper.getInstance(SMSDetailActivity.this).updateSMS(
+					currentSMS);
+			return null;
+		}
+	}
+
+	/**
+	 * update this sms to be used
+	 * 
+	 * @author dungnh8
+	 * 
+	 */
+	private class UpdateFavoritedSMSAsyncTask extends
+			AsyncTask<SMS, Void, Void> {
+		@Override
+		protected Void doInBackground(SMS... params) {
+			SMS currentSMS = params[0];
+			Log.i(TAG, currentSMS.toString());
+			MySQLiteHelper.getInstance(SMSDetailActivity.this).updateSMS(
+					currentSMS);
+			return null;
+		}
+	}
+
+	@Override
+	public void onFavoriteButtonChange(SMS sms) {
+		setImageFavorite(sms);
 	}
 }

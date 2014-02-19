@@ -24,7 +24,7 @@
 
     <LinearLayout
         android:id="@+id/header_button"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="right"
         android:orientation="horizontal" >
@@ -33,9 +33,10 @@
             android:id="@+id/header_send_button"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:clickable="true"
             android:paddingLeft="@dimen/header_send_button_padding_left"
             android:paddingRight="@dimen/header_send_button_padding_right"
-            android:src="@drawable/ic_sms" />
+            android:src="@drawable/send_sms_button" />
 
         <ImageView
             android:id="@+id/header_favorite_button"

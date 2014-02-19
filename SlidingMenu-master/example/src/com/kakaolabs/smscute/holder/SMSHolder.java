@@ -26,15 +26,12 @@ public class SMSHolder extends AbsContentHolder {
 	private Context mContext;
 	private static SMSHolder holder;
 	private SMS sms;
-	private int position;
 	private ArrayList<SMS> smsList;
 	private String catalogueTitle;
 	private static final String TAG = "SMSHolder";
 
-	public SMSHolder(Context mContext, int position, List<SMS> smsList,
-			String catalogueTitle) {
+	public SMSHolder(Context mContext, List<SMS> smsList, String catalogueTitle) {
 		this.mContext = mContext;
-		this.position = position;
 		this.smsList = (ArrayList<SMS>) smsList;
 		this.catalogueTitle = catalogueTitle;
 		holder = this;
@@ -81,6 +78,7 @@ public class SMSHolder extends AbsContentHolder {
 							SMSDetailActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putSerializable(Constants.SMS_LIST, smsList);
+					int position = smsList.indexOf(sms);
 					bundle.putInt(Constants.SMS_POSITION, position);
 					bundle.putString(Constants.CATALOGUE_TITLE, catalogueTitle);
 					intent.putExtras(bundle);

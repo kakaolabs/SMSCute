@@ -38,7 +38,8 @@
             android:id="@+id/sms_row_content"
             style="@style/sms_row"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+            android:background="@drawable/sms_row_background" />
     </RelativeLayout>
 
 </FrameLayout>
